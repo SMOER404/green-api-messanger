@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   Credentials,
   chatIdToPhone,
+  defaultApiUrl,
   deleteNotification,
   notificationsReady,
   phoneToChatId,
@@ -68,5 +69,15 @@ describe('notificationsReady', () => {
     expect(notificationsReady({ incomingWebhook: 'yes', webhookUrl: '' })).toBe(true)
     expect(notificationsReady({ incomingWebhook: 'no', webhookUrl: '' })).toBe(false)
     expect(notificationsReady({ incomingWebhook: 'yes', webhookUrl: 'https://x.y' })).toBe(false)
+  })
+})
+
+describe('defaultApiUrl', () => {
+  it('строит хост по первым четырём цифрам idInstance', () => {
+    expect(defaultApiUrl('410022751693')).toBe('https://4100.api.green-api.com')
+    expect(defaultApiUrl('1101000001')).toBe('https://1101.api.green-api.com')
+  })
+  it('для некорректного id возвращает общий хост', () => {
+    expect(defaultApiUrl('')).toBe('https://api.green-api.com')
   })
 })

@@ -1,16 +1,16 @@
 import { FormEvent, useState } from 'react'
-import { Credentials, DEFAULT_API_URL, getStateInstance } from '../api'
+import { Credentials, defaultApiUrl, getStateInstance } from '../api'
 
 export default function Login({ onLogin }: { onLogin: (c: Credentials) => void }) {
   const [idInstance, setId] = useState('')
   const [apiTokenInstance, setToken] = useState('')
-  const [apiUrl, setApiUrl] = useState(DEFAULT_API_URL)
+  const [apiUrl, setApiUrl] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
 
   const submit = async (e: FormEvent) => {
     e.preventDefault()
-    const creds = { idInstance: idInstance.trim(), apiTokenInstance: apiTokenInstance.trim(), apiUrl: apiUrl.trim() }
+    const creds = { idInstance: idInstance.trim(), apiTokenInstance: apiTokenInstance.trim(), apiUrl: apiUrl.trim() || defaultApiUrl(idInstance) }
     setBusy(true)
     setError('')
     try {
@@ -37,7 +37,11 @@ export default function Login({ onLogin }: { onLogin: (c: Credentials) => void }
           onChange={(e) => setToken(e.target.value)}
           required
         />
-        <input placeholder="apiUrl" value={apiUrl} onChange={(e) => setApiUrl(e.target.value)} required />
+        <input
+          placeholder={`apiUrl (необязательно, по умолчанию ${defaultApiUrl(idInstance)})`}
+          value={apiUrl}
+          onChange={(e) => setApiUrl(e.target.value)}
+        />
         {error && <div className="error">{error}</div>}
         <button className="primary" disabled={busy}>{busy ? 'Проверка…' : 'Войти'}</button>
       </form>

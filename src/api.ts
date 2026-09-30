@@ -8,7 +8,9 @@ export interface Credentials {
   apiUrl: string
 }
 
-export const DEFAULT_API_URL = 'https://api.green-api.com'
+/** apiUrl инстанса: `https://{первые 4 цифры idInstance}.api.green-api.com` (точное значение показано в личном кабинете). */
+export const defaultApiUrl = (idInstance: string) =>
+  /^\d{4}/.test(idInstance.trim()) ? `https://${idInstance.trim().slice(0, 4)}.api.green-api.com` : 'https://api.green-api.com'
 
 const endpoint = (c: Credentials, method: string, extra = '') =>
   `${c.apiUrl.replace(/\/$/, '')}/waInstance${c.idInstance}/${method}/${c.apiTokenInstance}${extra}`
