@@ -5,6 +5,8 @@
 
 React 18 · TypeScript · Vite · vitest
 
+**Демо:** https://green-api-messanger2.vercel.app/
+
 ## Локальный запуск
 
 Нужен Node.js 18+.
